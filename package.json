@@ -1,0 +1,31 @@
+{
+  "name": "proybackendgrupog06",
+  "version": "1.0.0",
+  "description": "Trabajo Práctico Final - Grupo G06 - Programación y Servicios Web 2026",
+  "homepage": "https://github.com/martinnzx/proybackendgrupoG06#readme",
+  "bugs": {
+    "url": "https://github.com/martinnzx/proybackendgrupoG06/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinnzx/proybackendgrupoG06.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "pg": "^8.22.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
