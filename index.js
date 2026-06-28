@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
@@ -9,7 +11,7 @@ app.use(express.json());
 app.use(cors({origin: 'http://localhost:4200'}));
 
 // Routes
-// app.use('/api/usuarios', require('./src/routes/usuario.route'));
+app.use('/api/usuarios', require('./src/routes/usuario.route'));
 
 // Setting
 app.set('port', process.env.PORT || 3000);
