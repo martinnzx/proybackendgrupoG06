@@ -3,6 +3,7 @@ const usuarioCtrl = require('./../../src/controllers/usuario.controller');
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
+const verificarToken = require('./../../src/middlewares/auth.middleware');
 
 const validarCrearUsuario = [
     body('nombre')
@@ -41,11 +42,11 @@ const validarActualizarUsuario = [
 ];
 
 router.post('/', validarCrearUsuario, usuarioCtrl.createUsuario);
-router.get('/', usuarioCtrl.getUsuarios);
-router.get('/:dni', usuarioCtrl.getUsuarioByDni);
-router.put('/:dni', validarActualizarUsuario, usuarioCtrl.updateUsuario);
-router.delete('/:dni', usuarioCtrl.deleteUsuario);
-router.patch('/:dni/inactive', usuarioCtrl.inactiveUsuario);
-router.patch('/:dni/active', usuarioCtrl.activeUsuario);
+router.get('/', verificarToken, usuarioCtrl.getUsuarios);
+router.get('/:dni', verificarToken, usuarioCtrl.getUsuarioByDni);
+router.put('/:dni', verificarToken, validarActualizarUsuario, usuarioCtrl.updateUsuario);
+router.delete('/:dni', verificarToken, usuarioCtrl.deleteUsuario);
+router.patch('/:dni/inactive', verificarToken, usuarioCtrl.inactiveUsuario);
+router.patch('/:dni/active', verificarToken, usuarioCtrl.activeUsuario);
 
 module.exports = router;

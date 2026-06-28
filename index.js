@@ -12,6 +12,7 @@ app.use(cors({origin: 'http://localhost:4200'}));
 
 // Routes
 app.use('/api/usuarios', require('./src/routes/usuario.route'));
+app.use('/api/auth', require('./src/routes/auth.route'));
 
 // Setting
 app.set('port', process.env.PORT || 3000);
