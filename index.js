@@ -10,14 +10,21 @@ var app = express();
 app.use(express.json());
 app.use(cors({origin: 'http://localhost:4200'}));
 
+//cargamos swagger 
+const swaggerUi = require('swagger-ui-express'); 
+const swaggerFile = require('./swagger_output.json'); // Asegúrate de que esta ruta sea correcta
+
 // Routes
-app.use('/api/usuarios', require('./src/routes/usuario.route'));
-app.use('/api/auth', require('./src/routes/auth.route'));
+app.use('/api/usuarios', require('./src/routes/usuario.route.js'));
+app.use('/api/auth', require('./src/routes/auth.route.js'));
 app.use('/api/ejercicio', require('./src/routes/ejercicio.route.js')); 
 app.use('/api/rutina', require('./src/routes/rutina.route.js')); 
 app.use('/api/suscripcion', require('./src/routes/suscripcion.route.js')); 
 app.use('/api/tarifa', require('./src/routes/tarifa.route.js')); 
 app.use('/api/pago', require('./src/routes/pago.route.js')); 
+
+// ruta hacia la documentacion de swagger 
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // Setting
 app.set('port', process.env.PORT || 3000);

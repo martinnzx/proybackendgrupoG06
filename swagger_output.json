@@ -611,6 +611,27 @@
         "activo": {
           "type": "boolean",
           "example": true
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "nombre": {
+              "type": "string",
+              "example": "Juan"
+            },
+            "apellido": {
+              "type": "string",
+              "example": "Perez"
+            },
+            "email": {
+              "type": "string",
+              "example": "correo_usuario@gmail.com"
+            }
+          }
         }
       }
     },
@@ -755,6 +776,31 @@
             "youtube_url": {
               "type": "string",
               "example": "link a página(mostrar ejercicio)"
+            },
+            "activo": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "nombre": {
+              "type": "string",
+              "example": "Juan"
+            },
+            "apellido": {
+              "type": "string",
+              "example": "Perez"
+            },
+            "email": {
+              "type": "string",
+              "example": "correo_usuario@gmail.com"
             },
             "activo": {
               "type": "boolean",

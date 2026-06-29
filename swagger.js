@@ -46,13 +46,13 @@ const doc = {
       fecha_inicio: '2026-06-01', 
       fecha_fin: '2026-12-31', 
       precio: '50.000',
-      activo: true/*,
+      activo: true,
          usuario: { 
             id: 1, 
             nombre: 'Juan', 
             apellido: 'Perez', 
             email: 'correo_usuario@gmail.com'
-         } */
+         } 
 
     } ,
     Tarifa: { 
@@ -98,15 +98,14 @@ const doc = {
           descripcion: 'calentamiento general', 
           youtube_url: 'link a página(mostrar ejercicio)',
           activo: true
-        }
-/*        , 
+        }, 
         usuario: { 
           id: 1, 
           nombre: 'Juan', 
           apellido: 'Perez', 
           email: 'correo_usuario@gmail.com',
           activo: true
-        } */
+        }
      }
 
   } 

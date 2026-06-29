@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('pysw_tpfinal_g06', 'postgres', 'Martin24', {
+//const sequelize = new Sequelize('tpfinalback', 'postgres', '123456', {
 
     host: 'localhost',
     dialect: 'postgres',
