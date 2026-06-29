@@ -13,6 +13,11 @@ app.use(cors({origin: 'http://localhost:4200'}));
 // Routes
 app.use('/api/usuarios', require('./src/routes/usuario.route'));
 app.use('/api/auth', require('./src/routes/auth.route'));
+app.use('/api/ejercicio', require('./src/routes/ejercicio.route.js')); 
+app.use('/api/rutina', require('./src/routes/rutina.route.js')); 
+app.use('/api/suscripcion', require('./src/routes/suscripcion.route.js')); 
+app.use('/api/tarifa', require('./src/routes/tarifa.route.js')); 
+app.use('/api/pago', require('./src/routes/pago.route.js')); 
 
 // Setting
 app.set('port', process.env.PORT || 3000);
