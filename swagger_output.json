@@ -1,0 +1,814 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "APIs TRABAJO FINAL",
+    "description": "Trabajo Final Programacion y Servicios Web - 2026",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Ejercicios",
+      "description": "Operaciones relacionadas con ejercicios."
+    },
+    {
+      "name": "Rutinas",
+      "description": "Operaciones relacionadas con rutinas de ejercicios."
+    },
+    {
+      "name": "Suscripciones",
+      "description": "Operaciones relacionadas con suscripciones."
+    },
+    {
+      "name": "Tarifas",
+      "description": "Operaciones relacionadas con tarifas de suscripciones."
+    },
+    {
+      "name": "Pagos",
+      "description": "Operaciones relacionadas con pagos a tarifas."
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/api/usuarios/": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dni": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "nombre": {
+                  "example": "any"
+                },
+                "apellido": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "google_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/usuarios/{dni}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/usuarios/{dni}/inactive": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/usuarios/{dni}/active": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/ejercicio/": {
+      "get": {
+        "tags": [
+          "Ejercicios"
+        ],
+        "summary": "Obtener todos los ejercicios",
+        "description": "Retorna una lista de todos los ejercicios.",
+        "responses": {
+          "200": {
+            "description": "Lista de ejercicios obtenida con éxito.",
+            "schema": {
+              "$ref": "#/definitions/Ejercicio"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Ejercicios"
+        ],
+        "summary": "Agregar un ejercicio",
+        "description": "Agrega un ejercicio a lista de ejercicios.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del ejercicio a agregar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Ejercicio"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejercicio agregado correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Ejercicio"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/rutina/": {
+      "get": {
+        "tags": [
+          "Rutinas"
+        ],
+        "summary": "Obtener todas las rutinas",
+        "description": "Retorna una lista de rutinas.",
+        "responses": {
+          "200": {
+            "description": "Lista de rutinas obtenida con éxito.",
+            "schema": {
+              "$ref": "#/definitions/Rutinas"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Rutinas"
+        ],
+        "summary": "Agregar una rutina",
+        "description": "Agrega una rutina.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos de la rutina a agregar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Rutina"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rutina agregado correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Rutina"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/suscripcion/": {
+      "get": {
+        "tags": [
+          "Suscripciones"
+        ],
+        "summary": "Obtener todos las suscripciones",
+        "description": "Retorna una lista de todos las suscripciones.",
+        "responses": {
+          "200": {
+            "description": "Lista de suscripciones obtenida con éxito.",
+            "schema": {
+              "$ref": "#/definitions/Suscripcion"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Suscripciones"
+        ],
+        "summary": "Agregar una suscripcion",
+        "description": "Agrega una suscripcion a lista de suscripciones.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos de la suscripcion a agregar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Suscripcion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suscripcion agregada correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Suscripcion"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/tarifa/": {
+      "get": {
+        "tags": [
+          "Tarifas"
+        ],
+        "summary": "Obtener todos las tarifas",
+        "description": "Retorna una lista de todos las tarifas.",
+        "responses": {
+          "200": {
+            "description": "Lista de tarifas obtenida con éxito.",
+            "schema": {
+              "$ref": "#/definitions/Tarifa"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tarifas"
+        ],
+        "summary": "Agregar una tarifa",
+        "description": "Agrega una tarifa a lista de tarifas.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos de la tarifa a agregar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tarifa"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarifa agregada correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Tarifa"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/pago/": {
+      "get": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Obtener todos pagos a tarifas",
+        "description": "Retorna una lista de todos los pagos.",
+        "responses": {
+          "200": {
+            "description": "Lista de pagos obtenida con éxito.",
+            "schema": {
+              "$ref": "#/definitions/Pagos"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pagos"
+        ],
+        "summary": "Agregar un pago",
+        "description": "Agrega una pago a una tarifa.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del pago a agregar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pago"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pago agregado correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Pago"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Ejercicio": {
+      "type": "object",
+      "properties": {
+        "nombre": {
+          "type": "string",
+          "example": "Bicicleta fija"
+        },
+        "descripcion": {
+          "type": "string",
+          "example": "calentamiento general"
+        },
+        "youtube_url": {
+          "type": "string",
+          "example": "link a página(mostrar ejercicio)"
+        },
+        "activo": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "Suscripcion": {
+      "type": "object",
+      "properties": {
+        "fecha_inicio": {
+          "type": "string",
+          "example": "2026-06-01"
+        },
+        "fecha_fin": {
+          "type": "string",
+          "example": "2026-12-31"
+        },
+        "precio": {
+          "type": "string",
+          "example": "50.000"
+        },
+        "activo": {
+          "type": "boolean",
+          "example": true
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "nombre": {
+              "type": "string",
+              "example": "Juan"
+            },
+            "apellido": {
+              "type": "string",
+              "example": "Perez"
+            },
+            "email": {
+              "type": "string",
+              "example": "correo_usuario@gmail.com"
+            }
+          }
+        }
+      }
+    },
+    "Tarifa": {
+      "type": "object",
+      "properties": {
+        "anio": {
+          "type": "string",
+          "example": "2026"
+        },
+        "mes": {
+          "type": "string",
+          "example": "6"
+        },
+        "precio": {
+          "type": "string",
+          "example": "50.000"
+        },
+        "pagado": {
+          "type": "boolean",
+          "example": false
+        },
+        "activo": {
+          "type": "boolean",
+          "example": true
+        },
+        "suscripcion": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "fecha_inicio": {
+              "type": "string",
+              "example": "2026-06-01"
+            },
+            "fecha_fin": {
+              "type": "string",
+              "example": "2026-12-31"
+            },
+            "precio": {
+              "type": "string",
+              "example": "50.000"
+            },
+            "activo": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      }
+    },
+    "Pago": {
+      "type": "object",
+      "properties": {
+        "fecha": {
+          "type": "string",
+          "example": "2026-06-28"
+        },
+        "transaccion": {
+          "type": "string",
+          "example": "tipo de pago? comprobante? medio de pago?"
+        },
+        "monto": {
+          "type": "string",
+          "example": "50.000"
+        },
+        "activo": {
+          "type": "boolean",
+          "example": true
+        },
+        "tarifa": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "anio": {
+              "type": "string",
+              "example": "2026"
+            },
+            "mes": {
+              "type": "string",
+              "example": "6"
+            },
+            "precio": {
+              "type": "string",
+              "example": "50.000"
+            },
+            "pagado": {
+              "type": "boolean",
+              "example": false
+            },
+            "activo": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      }
+    },
+    "Rutina": {
+      "type": "object",
+      "properties": {
+        "dia_semana": {
+          "type": "string",
+          "example": "Lunes"
+        },
+        "turno": {
+          "type": "string",
+          "example": "tarde"
+        },
+        "nombre": {
+          "type": "string",
+          "example": "nombre rutina"
+        },
+        "descripcion": {
+          "type": "string",
+          "example": "descripcion rutina"
+        },
+        "activo": {
+          "type": "boolean",
+          "example": true
+        },
+        "ejercicio": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "nombre": {
+              "type": "string",
+              "example": "Bicicleta fija"
+            },
+            "descripcion": {
+              "type": "string",
+              "example": "calentamiento general"
+            },
+            "youtube_url": {
+              "type": "string",
+              "example": "link a página(mostrar ejercicio)"
+            },
+            "activo": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "example": 1
+            },
+            "nombre": {
+              "type": "string",
+              "example": "Juan"
+            },
+            "apellido": {
+              "type": "string",
+              "example": "Perez"
+            },
+            "email": {
+              "type": "string",
+              "example": "correo_usuario@gmail.com"
+            },
+            "activo": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
