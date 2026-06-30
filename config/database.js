@@ -1,12 +1,15 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('pysw_tpfinal_g06', 'postgres', 'Martin24', {
-//const sequelize = new Sequelize('tpfinalback', 'postgres', '123456', {
-
-    host: 'localhost',
-    dialect: 'postgres',
-    logging: false,
-});
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+        host: process.env.DB_HOST,
+        dialect: 'postgres',
+        logging: false,
+    }
+);
 
 sequelize.authenticate()
     .then(() => console.log('La base de datos está conectada a PostgreSQL'))
