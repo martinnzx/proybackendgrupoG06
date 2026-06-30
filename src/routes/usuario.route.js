@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const verificarToken = require('./../../src/middlewares/auth.middleware');
+const verificarRol = require('./../../src/middlewares/rol.middleware');
 
 const validarCrearUsuario = [
     body('nombre')
@@ -42,11 +43,11 @@ const validarActualizarUsuario = [
 ];
 
 router.post('/', validarCrearUsuario, usuarioCtrl.createUsuario);
-router.get('/', verificarToken, usuarioCtrl.getUsuarios);
-router.get('/:dni', verificarToken, usuarioCtrl.getUsuarioByDni);
-router.put('/:dni', verificarToken, validarActualizarUsuario, usuarioCtrl.updateUsuario);
-router.delete('/:dni', verificarToken, usuarioCtrl.deleteUsuario);
-router.patch('/:dni/inactive', verificarToken, usuarioCtrl.inactiveUsuario);
-router.patch('/:dni/active', verificarToken, usuarioCtrl.activeUsuario);
+router.get('/', verificarToken, verificarRol('admin'), usuarioCtrl.getUsuarios);
+router.get('/:dni', verificarToken, verificarRol('admin'), usuarioCtrl.getUsuarioByDni);
+router.put('/:dni', verificarToken, verificarRol('admin'), validarActualizarUsuario, usuarioCtrl.updateUsuario);
+router.delete('/:dni', verificarToken, verificarRol('admin'), usuarioCtrl.deleteUsuario);
+router.patch('/:dni/inactive', verificarToken, verificarRol('admin'), usuarioCtrl.inactiveUsuario);
+router.patch('/:dni/active', verificarToken, verificarRol('admin'), usuarioCtrl.activeUsuario);
 
 module.exports = router;
