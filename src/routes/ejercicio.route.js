@@ -7,6 +7,8 @@ const router = express.Router();
  
 router.get('/', ejercicioCtrl.getEjercicios); 
 router.post('/', ejercicioCtrl.createEjercicio); 
+router.put('/:id', ejercicioCtrl.editEjercicio); 
+router.delete('/:id', ejercicioCtrl.deleteEjercicio); 
 
 //exportamos el modulo de rutas 
 module.exports = router;

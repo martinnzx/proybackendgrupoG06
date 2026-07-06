@@ -1,5 +1,6 @@
 const Tarifa = require('./../../src/models/tarifa.model'); // Asegúrate de usar la ruta 
 const Suscripcion = require('./../../src/models/suscripcion.model'); // Asegúrate de usar la ruta 
+const Usuario = require('./../../src/models/usuario.model');
 
 const tarifaCtrl = {}; 
 
@@ -66,5 +67,93 @@ tarifaCtrl.getTarifas = async (req, res) => {
     res.status(500).json({ status: '0', msg: 'Error al obtener las tarifas.' }); 
   } 
 }; 
- 
+
+// Obtener cuotas impagas de un usuario específico
+ tarifaCtrl.getCuotasImpagasPorUsuario = async (req, res) => {
+    /*
+        #swagger.tags = ['Tarifas']
+        #swagger.summary = 'Obtener cuotas impagas por usuario'
+        #swagger.description = 'Retorna únicamente las cuotas no pagadas de un usuario recibido por parámetro.'
+        #swagger.parameters['usuarioId'] = {
+            in: 'path',
+            description: 'ID del usuario del cual se quieren obtener las cuotas impagas.',
+            required: true,
+            type: 'string'
+        }
+        #swagger.responses[200] = {
+            description: 'Lista de cuotas impagas obtenida con éxito.',
+            schema: { type: 'array', items: { $ref: '#/definitions/Tarifa' } }
+        }
+    */
+
+    try {
+        const { usuarioId } = req.params;
+
+        const cuotasImpagas = await Tarifa.findAll({
+            include: [
+                {
+                    model: Suscripcion,
+                    as: 'suscripcion',
+                    attributes: ['id', 'fecha_inicio', 'fecha_fin', 'precio', 'activo'],
+                    where: { usuarioId },
+                    include: [
+                        {
+                            model: Usuario,
+                            as: 'usuario',
+                            attributes: ['id', 'apellido', 'nombre', 'email']
+                        }
+                    ]
+                }
+            ],
+            where: { pagado: false, activo: true },
+            order: [['anio', 'ASC'], ['mes', 'ASC']]
+        });
+
+        res.json(cuotasImpagas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: '0', msg: 'Error al obtener las cuotas impagas.' });
+    }
+};
+
+// Anular una tarifa 
+tarifaCtrl.anularTarifa = async (req, res) => { 
+
+    /* 
+        #swagger.tags = ['Tarifas'] 
+        #swagger.summary = 'Anular una tarifa' 
+        #swagger.description = 'Anula una tarifa de la lista de tarifas.' 
+        #swagger.parameters['id'] = { 
+            in: 'path', 
+            description: 'ID de la tarifa a anular.', 
+            required: true, 
+            type: 'string' 
+        } 
+        #swagger.responses[200] = { 
+            description: 'Tarifa anulada correctamente.'
+        } 
+    */
+  try { 
+    const tarifa = await Tarifa.findByPk(req.params.id);
+
+    if (!tarifa) {
+      return res.status(404).json({ status: '0', msg: 'Tarifa no encontrada.' });
+    }
+
+    if (tarifa.activo === false) {
+      return res.status(400).json({ status: '0', msg: 'La tarifa ya se encuentra anulada.' });
+    }
+
+    if (tarifa.pagado === true) {
+      return res.status(400).json({ status: '0', msg: 'No se puede anular una tarifa pagada.' });
+    }
+
+    await tarifa.update({ activo: false });
+    res.json({ status: '1', msg: 'Tarifa anulada correctamente.' }); 
+  } catch (error) { 
+    console.error(error);
+    res.status(400).json({ status: '0', msg: 'Error procesando la operacion' }); 
+  } 
+}; 
+
 module.exports = tarifaCtrl; 

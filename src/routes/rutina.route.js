@@ -7,6 +7,8 @@ const router = express.Router();
  
 router.get('/', rutinaCtrl.getRutinas); 
 router.post('/', rutinaCtrl.createRutina); 
+router.delete('/:id', rutinaCtrl.deleteRutina);
+router.put('/:id', rutinaCtrl.editRutina);
 
 //exportamos el modulo de rutas 
 module.exports = router;

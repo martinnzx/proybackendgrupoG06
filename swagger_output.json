@@ -34,6 +34,55 @@
     "https"
   ],
   "paths": {
+    "/api/mp/payment": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "unit_price": {
+                  "example": "any"
+                },
+                "payer_email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/mp/subscription": {
+      "post": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/usuarios/": {
       "post": {
         "description": "",
@@ -94,6 +143,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -122,6 +174,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -165,6 +220,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -198,6 +256,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -230,6 +291,9 @@
           "401": {
             "description": "Unauthorized"
           },
+          "403": {
+            "description": "Forbidden"
+          },
           "404": {
             "description": "Not Found"
           },
@@ -261,6 +325,9 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -303,6 +370,186 @@
           },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/roles/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/roles/usuario/{dni}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/roles/usuario/{dni}/rol/{nombre}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -362,13 +609,95 @@
         }
       }
     },
+    "/api/ejercicio/{id}": {
+      "put": {
+        "tags": [
+          "Ejercicios"
+        ],
+        "summary": "Modificar un ejercicio",
+        "description": "Modifica los datos de un ejercicio existente.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del ejercicio a modificar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Ejercicio"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejercicio modificado correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Ejercicio"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Ejercicios"
+        ],
+        "summary": "Eliminar un ejercicio",
+        "description": "Elimina un ejercicio de la lista de ejercicios.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID del ejercicio a eliminar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ejercicio eliminado correctamente."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/rutina/": {
       "get": {
         "tags": [
           "Rutinas"
         ],
         "summary": "Obtener todas las rutinas",
-        "description": "Retorna una lista de rutinas.",
+        "description": "Retorna una lista de rutinas. Parámetros opcionales: idUsuario, idEjercicio.",
+        "parameters": [
+          {
+            "name": "description",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "schema",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de rutinas obtenida con éxito.",
@@ -410,6 +739,76 @@
           },
           "400": {
             "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/rutina/{id}": {
+      "delete": {
+        "tags": [
+          "Rutinas"
+        ],
+        "summary": "Eliminar una rutina",
+        "description": "Elimina una rutina de la lista de rutinas.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID de la rutina a eliminar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rutina eliminada correctamente."
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Rutinas"
+        ],
+        "summary": "Modificar una rutina",
+        "description": "Modifica los datos de una rutina existente.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos de la rutina a modificar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Rutina"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rutina modificada correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Rutina"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -466,6 +865,79 @@
         }
       }
     },
+    "/api/suscripcion/{id}": {
+      "delete": {
+        "tags": [
+          "Suscripciones"
+        ],
+        "summary": "Eliminar una suscripcion",
+        "description": "Elimina una suscripcion de la lista de suscripciones.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID de la suscripcion a eliminar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suscripcion eliminada correctamente."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Suscripciones"
+        ],
+        "summary": "Modificar una suscripcion",
+        "description": "Modifica los datos de una suscripcion existente.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos de la suscripcion a modificar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Suscripcion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suscripcion modificada correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Suscripcion"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/tarifa/": {
       "get": {
         "tags": [
@@ -518,6 +990,76 @@
         }
       }
     },
+    "/api/tarifa/impagas/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Tarifas"
+        ],
+        "summary": "Obtener cuotas impagas por usuario",
+        "description": "Retorna únicamente las cuotas no pagadas de un usuario recibido por parámetro.",
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID del usuario del cual se quieren obtener las cuotas impagas."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de cuotas impagas obtenida con éxito.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "$ref": "#/definitions/Tarifa"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/tarifa/{id}/anular": {
+      "patch": {
+        "tags": [
+          "Tarifas"
+        ],
+        "summary": "Anular una tarifa",
+        "description": "Anula una tarifa de la lista de tarifas.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID de la tarifa a anular."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tarifa anulada correctamente."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/pago/": {
       "get": {
         "tags": [
@@ -566,6 +1108,27 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/pago/{id}/anular": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
