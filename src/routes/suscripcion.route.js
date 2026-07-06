@@ -7,6 +7,8 @@ const router = express.Router();
  
 router.get('/', suscripcionCtrl.getSuscripciones); 
 router.post('/', suscripcionCtrl.createSuscripcion); 
+router.delete('/:id', suscripcionCtrl.deleteSuscricion);
+router.patch('/:id', suscripcionCtrl.editSuscripcion);
 
 
 

@@ -7,6 +7,15 @@ const router = express.Router();
  
 router.get('/', pagoCtrl.getPagos); 
 router.post('/', pagoCtrl.createPago); 
+router.patch('/:id/anular', async (req, res) => {
+    try {
+        const result = await pagoCtrl.anularPago(req.params.id);
+        res.json(result);
+    } catch (error) {
+        const status = error.statusCode || 400;
+        res.status(status).json({ status: '0', msg: error.message || 'Error procesando la operacion' });
+    }
+}); 
 
 //exportamos el modulo de rutas 
 module.exports = router;
