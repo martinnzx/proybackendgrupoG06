@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const Usuario = require('./../models/usuario.model');
+const Rol = require('./../models/rol.model');
+const UsuarioRol = require('./../models/usuarioRol.model');
 
 const authCtrl = {};
 
@@ -35,6 +37,15 @@ authCtrl.login = async (req, res) => {
             { expiresIn: '8h' }
         );
         
+        let nombreRol = 'socio';
+        const asignacion = await UsuarioRol.findOne({ where: { id_usuario: usuario.id } });
+        if (asignacion) {
+            const rolEncontrado = await Rol.findByPk(asignacion.id_rol);
+            if (rolEncontrado) {
+                nombreRol = rolEncontrado.nombre;
+            }
+        }
+
         res.json({
             status: '1',
             msg: 'Login exitoso.',
@@ -43,7 +54,8 @@ authCtrl.login = async (req, res) => {
                 id: usuario.id,
                 nombre: usuario.nombre,
                 apellido: usuario.apellido,
-                email: usuario.email
+                email: usuario.email,
+                rol: nombreRol
             }
         });
     } catch (error) {
