@@ -83,6 +83,23 @@ rutinaCtrl.getRutinas = async (req, res) => {
     res.status(500).json({ status: '0', msg: 'Error al obtener las rutinas.' }); 
   } 
 }; 
+
+// Obtener las rutinas del socio logueado
+rutinaCtrl.getMisRutinas = async (req, res) => {
+    try {
+        const usuarioId = req.usuario.id;
+        const rutinas = await Rutina.findAll({
+            include: [
+                { model: Ejercicio, as: 'ejercicio', attributes: ['nombre', 'descripcion', 'youtube_url', 'activo'] }
+            ],
+            where: { usuarioId }
+        });
+        res.json(rutinas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: '0', msg: 'Error al obtener tus rutinas.' });
+    }
+};
  
 // Eliminar una rutina
 rutinaCtrl.deleteRutina = async (req, res) => { 

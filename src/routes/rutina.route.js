@@ -8,6 +8,7 @@ const verificarRol = require('../middlewares/rol.middleware');
 
 //definimos las rutas para la gestion de rutinas
 router.get('/', verificarToken, verificarRol('entrenador'), rutinaCtrl.getRutinas); 
+router.get('/mis-rutinas', verificarToken, verificarRol('socio'), rutinaCtrl.getMisRutinas); 
 router.post('/', verificarToken, verificarRol('entrenador'), rutinaCtrl.createRutina); 
 router.put('/:id', verificarToken, verificarRol('entrenador'), rutinaCtrl.editRutina);
 router.delete('/:id', verificarToken, verificarRol('entrenador'), rutinaCtrl.deleteRutina);
