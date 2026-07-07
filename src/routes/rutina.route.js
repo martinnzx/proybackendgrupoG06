@@ -2,13 +2,15 @@
 const rutinaCtrl = require('../controllers/rutina.controller'); // Asegúrate de usar la ruta correcta a tu controlador
 //creamos el manejador de rutas  
 const express = require('express'); 
-const router = express.Router(); 
+const router = express.Router();
+const verificarToken = require('../middlewares/auth.middleware');
+const verificarRol = require('../middlewares/rol.middleware');
+
 //definimos las rutas para la gestion de rutinas
- 
-router.get('/', rutinaCtrl.getRutinas); 
-router.post('/', rutinaCtrl.createRutina); 
-router.delete('/:id', rutinaCtrl.deleteRutina);
-router.put('/:id', rutinaCtrl.editRutina);
+router.get('/', verificarToken, verificarRol('entrenador'), rutinaCtrl.getRutinas); 
+router.post('/', verificarToken, verificarRol('entrenador'), rutinaCtrl.createRutina); 
+router.put('/:id', verificarToken, verificarRol('entrenador'), rutinaCtrl.editRutina);
+router.delete('/:id', verificarToken, verificarRol('entrenador'), rutinaCtrl.deleteRutina);
 
 //exportamos el modulo de rutas 
 module.exports = router;

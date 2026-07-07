@@ -30,11 +30,11 @@ app.use('/api/usuarios', require('./src/routes/usuario.route.js'));
 app.use('/api/auth', require('./src/routes/auth.route.js'));
 app.use('/api/roles', require('./src/routes/rol.route'));
 
-app.use('/api/ejercicio', require('./src/routes/ejercicio.route.js')); 
-app.use('/api/rutina', require('./src/routes/rutina.route.js')); 
-app.use('/api/suscripcion', require('./src/routes/suscripcion.route.js')); 
-app.use('/api/tarifa', require('./src/routes/tarifa.route.js')); 
-app.use('/api/pago', require('./src/routes/pago.route.js')); 
+app.use('/api/ejercicios', require('./src/routes/ejercicio.route.js')); 
+app.use('/api/rutinas', require('./src/routes/rutina.route.js')); 
+app.use('/api/suscripciones', require('./src/routes/suscripcion.route.js')); 
+app.use('/api/tarifas', require('./src/routes/tarifa.route.js')); 
+app.use('/api/pagos', require('./src/routes/pago.route.js')); 
 
 // Ruta hacia la documentacion de swagger 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));

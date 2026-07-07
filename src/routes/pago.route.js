@@ -3,11 +3,14 @@ const pagoCtrl = require('../controllers/pago.controller'); // Asegúrate de usa
 //creamos el manejador de rutas  
 const express = require('express'); 
 const router = express.Router(); 
+const verificarToken = require('../middlewares/auth.middleware');
+const verificarRol = require('../middlewares/rol.middleware');
+
 //definimos las rutas para la gestion de pagos
  
-router.get('/', pagoCtrl.getPagos); 
-router.post('/', pagoCtrl.createPago); 
-router.patch('/:id/anular', async (req, res) => {
+router.get('/', verificarToken, verificarRol('admin'), pagoCtrl.getPagos); 
+router.post('/', verificarToken, verificarRol('admin'), pagoCtrl.createPago); 
+router.patch('/:id/anular', verificarToken, verificarRol('admin'), async (req, res) => {
     try {
         const result = await pagoCtrl.anularPago(req.params.id);
         res.json(result);
