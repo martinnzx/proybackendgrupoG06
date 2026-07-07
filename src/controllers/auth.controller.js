@@ -6,6 +6,7 @@ const Rol = require('./../models/rol.model');
 const UsuarioRol = require('./../models/usuarioRol.model');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const emailService = require('./../services/email.service');
 
 const authCtrl = {};
 
@@ -66,6 +67,7 @@ authCtrl.login = async (req, res) => {
     }
 };
 
+// Login con Google
 authCtrl.googleLogin = async (req, res) => {
     try {
         const { token } = req.body;
@@ -94,6 +96,8 @@ authCtrl.googleLogin = async (req, res) => {
             });
             
             await UsuarioRol.create({ id_usuario: usuario.id, id_rol: 3 });
+
+            await emailService.enviarBienvenida(email, given_name);
         }
         if (!usuario.estado) {
             return res.status(403).json({ status: '0', msg: 'Usuario inactivo.' });
