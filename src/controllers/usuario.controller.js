@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const Usuario = require('./../../src/models/usuario.model');
+const emailService = require('./../services/email.service');
 const usuarioCtrl = {};
 
 // Alta de nuevo usuario
@@ -26,6 +27,8 @@ usuarioCtrl.createUsuario = async (req, res) => {
             password_hash: password_hash,
             google_id: req.body.google_id || null
         });
+        await emailService.enviarBienvenida(req.body.email, req.body.nombre);
+
         res.json({status: '1', msg: 'Usuario creado correctamente.'});
     } catch (error) {
         console.error(error);
