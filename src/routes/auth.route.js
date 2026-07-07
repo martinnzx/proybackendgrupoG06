@@ -14,5 +14,6 @@ const validarLogin = [
 ];
 
 router.post('/login', validarLogin, authCtrl.login);
+router.post('/google', authCtrl.googleLogin);
 
 module.exports = router;
