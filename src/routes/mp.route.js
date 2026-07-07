@@ -7,7 +7,7 @@ const verificarToken = require('../middlewares/auth.middleware');
 const verificarRol = require('../middlewares/rol.middleware');
  
 //definimos las rutas para la gestion de un pago unico em mercado pago 
-router.post('/payment', verificarToken, verificarRol('admin'), mpCtrl.getPaymentlink); 
+router.post('/payment', verificarToken, verificarRol(['admin', 'socio']), mpCtrl.getPaymentlink); 
  
 //definimos las rutas para la gestion de un pago por suscripcion en mercado pago 
 //ej. pagar todos los meses $ 10.000 

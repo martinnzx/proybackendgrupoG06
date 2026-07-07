@@ -9,6 +9,7 @@ const verificarRol = require('../middlewares/rol.middleware');
 //definimos las rutas para la gestion de tarifas
  
 router.get('/', verificarToken, verificarRol('admin'), tarifaCtrl.getTarifas); 
+router.get('/mis-tarifas', verificarToken, verificarRol('socio'), tarifaCtrl.getMisTarifas); 
 router.get('/impagas/:usuarioId', verificarToken, verificarRol('admin'), tarifaCtrl.getCuotasImpagasPorUsuario);
 router.post('/', verificarToken, verificarRol('admin'), tarifaCtrl.createTarifa); 
 router.patch('/:id/anular', verificarToken, verificarRol('admin'), tarifaCtrl.anularTarifa);

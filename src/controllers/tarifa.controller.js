@@ -116,6 +116,30 @@ tarifaCtrl.getTarifas = async (req, res) => {
     }
 };
 
+// Obtener todas las cuotas del socio logueado (Mis Pagos)
+tarifaCtrl.getMisTarifas = async (req, res) => {
+    try {
+        const usuarioId = req.usuario.id;
+
+        const misTarifas = await Tarifa.findAll({
+            include: [
+                {
+                    model: Suscripcion,
+                    as: 'suscripcion',
+                    attributes: ['id', 'fecha_inicio', 'fecha_fin', 'precio', 'activo'],
+                    where: { usuarioId }
+                }
+            ],
+            order: [['anio', 'DESC'], ['mes', 'DESC']]
+        });
+
+        res.json(misTarifas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: '0', msg: 'Error al obtener las cuotas del socio.' });
+    }
+};
+
 // Anular una tarifa 
 tarifaCtrl.anularTarifa = async (req, res) => { 
 
