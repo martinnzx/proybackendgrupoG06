@@ -1,30 +1,36 @@
 const Rol = require('./../models/rol.model');
 const UsuarioRol = require('./../models/usuarioRol.model');
 
-// Middleware Factory
-const verificarRol = (rolRequerido) => {
+const verificarRol = (rolesRequeridos) => {
     return async (req, res, next) => {
         try {
+            const rolesArray = Array.isArray(rolesRequeridos) ? rolesRequeridos : [rolesRequeridos];
 
-            const rol = await Rol.findOne({ where: { nombre: rolRequerido } });
-            if (!rol) {
-                return res.status(500).json({
-                    status: '0',
-                    msg: `El rol "${rolRequerido}" no existe en el sistema.`
-                });
+            let tienePermiso = false; 
+
+            for (let nombreRol of rolesArray) {
+                
+                const rolDB = await Rol.findOne({ where: { nombre: nombreRol } });
+                
+                if (rolDB) {
+                    const asignacion = await UsuarioRol.findOne({
+                        where: {
+                            id_usuario: req.usuario.id,
+                            id_rol: rolDB.id
+                        }
+                    });
+
+                    if (asignacion) {
+                        tienePermiso = true;
+                        break; 
+                    }
+                }
             }
 
-            const asignacion = await UsuarioRol.findOne({
-                where: {
-                    id_usuario: req.usuario.id,
-                    id_rol: rol.id
-                }
-            });
-
-            if (!asignacion) {
+            if (!tienePermiso) {
                 return res.status(403).json({
                     status: '0',
-                    msg: `Acceso denegado. Se requiere el rol "${rolRequerido}".`
+                    msg: `Acceso denegado. Se requiere alguno de estos roles: ${rolesArray.join(' o ')}.`
                 });
             }
 
