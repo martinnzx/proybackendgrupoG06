@@ -2,29 +2,30 @@ const axios = require("axios");
 const mpCtrl = {} 
  
 mpCtrl.getPaymentlink = async (req, res) => { 
-    //recibir en body info de payer_email, title, description, etc... 
     try { 
-        const { title, description, unit_price, payer_email } = req.body;
+        const { title, description, payer_email } = req.body;
+
+        // Extraemos el precio y lo validamos
         const incomingPrice = Number(req.body.unit_price ?? req.body.price ?? req.body.amount);
-        const unitPrice = Number.isFinite(incomingPrice) ? incomingPrice : 500;
+        const unitPrice = Number.isFinite(incomingPrice) && incomingPrice > 0 ? incomingPrice : 1;
+
         const url = "https://api.mercadopago.com/checkout/preferences"; 
         const body = { 
-          payer_email: payer_email || "payer_email@gmail.com", 
           items: [ 
             { 
               title: title || "Cuota gimnasio", 
-              description: description || "error de periodo", 
-              picture_url: "http://www.myapp.com/myimage.jpg", 
-              category_id: "cuota", 
+              description: description || "Pago de cuota mensual", 
+              picture_url: "https://i.imgur.com/lMJnR3I.png", 
+              category_id: "services", 
               quantity: 1, 
-              unit_price: unitPrice || 1
+              unit_price: unitPrice
             } 
           ],
           back_urls: { 
-            failure: "http://localhost:4200/failure", 
-            pending: "http://localhost:4200/pending", 
-            success: "http://localhost:4200/success" 
-          } 
+            failure: "http://localhost:4200/tarifas", 
+            pending: "http://localhost:4200/tarifas", 
+            success: "http://localhost:4200/tarifas" 
+          }
         }; 
  
         const payment = await axios.post(url, body, { 
@@ -37,10 +38,13 @@ mpCtrl.getPaymentlink = async (req, res) => {
         return res.status(200).json(payment.data); 
  
     } catch (error) { 
-      console.log(error); 
+      const mpError = error.response?.data || error.message;
+      console.log("Error MP:", mpError); 
  
       return res.status(500).json({ 
-         error: true, msg: "Failed to create payment"  
+         error: true, 
+         msg: "Failed to create payment in MercadoPago",
+         detalle: mpError
       }); 
     } 
 } 
