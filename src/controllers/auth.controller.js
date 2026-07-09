@@ -40,8 +40,11 @@ authCtrl.login = async (req, res) => {
             { expiresIn: '8h' }
         );
         
-        let nombreRol = 'socio';
-        const asignacion = await UsuarioRol.findOne({ where: { id_usuario: usuario.id } });
+        let nombreRol = null;
+        const asignacion = await UsuarioRol.findOne({ 
+            where: { id_usuario: usuario.id },
+            order: [['id_rol', 'ASC']]
+        });
         if (asignacion) {
             const rolEncontrado = await Rol.findByPk(asignacion.id_rol);
             if (rolEncontrado) {
@@ -103,6 +106,18 @@ authCtrl.googleLogin = async (req, res) => {
             return res.status(403).json({ status: '0', msg: 'Usuario inactivo.' });
         }
         
+        let nombreRol = null;
+        const asignacion = await UsuarioRol.findOne({ 
+            where: { id_usuario: usuario.id },
+            order: [['id_rol', 'ASC']]
+        });
+        if (asignacion) {
+            const rolEncontrado = await Rol.findByPk(asignacion.id_rol);
+            if (rolEncontrado) {
+                nombreRol = rolEncontrado.nombre;
+            }
+        }
+
         const tokenLocal = jwt.sign(
             { id: usuario.id, email: usuario.email, estado: usuario.estado },
             process.env.JWT_SECRET,
@@ -116,7 +131,8 @@ authCtrl.googleLogin = async (req, res) => {
                 id: usuario.id,
                 nombre: usuario.nombre,
                 apellido: usuario.apellido,
-                email: usuario.email
+                email: usuario.email,
+                rol: nombreRol
             }
         });
     } catch (error) {
