@@ -29,8 +29,31 @@ suscripcionCtrl.createSuscripcion = async (req, res) => {
     if (data.usuario  && data.usuario.id) {
         data.usuarioId = data.usuario.id;
 
-        await Suscripcion.create(req.body); 
-        res.json({ status: '1', msg: 'Suscripcion guardada.' }); 
+        const nuevaSuscripcion = await Suscripcion.create(req.body); 
+
+        let anioStr = '';
+        let mesStr = '';
+        
+        if (req.body.fecha_inicio && req.body.fecha_inicio.includes('-')) {
+            const partes = req.body.fecha_inicio.split('-');
+            anioStr = partes[0];
+            mesStr = parseInt(partes[1], 10).toString();
+        } else {
+            const fechaD = new Date(req.body.fecha_inicio);
+            anioStr = fechaD.getFullYear().toString();
+            mesStr = (fechaD.getMonth() + 1).toString();
+        }
+
+        await Tarifa.create({
+            anio: anioStr,
+            mes: mesStr,
+            precio: req.body.precio,
+            pagado: false,
+            activo: true,
+            suscripcionId: nuevaSuscripcion.id
+        });
+
+        res.json({ status: '1', msg: 'Suscripcion y Cuota inicial guardadas exitosamente.' }); 
 
     }
     else {

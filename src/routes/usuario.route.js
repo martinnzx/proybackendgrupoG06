@@ -44,6 +44,7 @@ const validarActualizarUsuario = [
 
 router.post('/', validarCrearUsuario, usuarioCtrl.createUsuario);
 router.get('/', verificarToken, verificarRol(['admin', 'entrenador']), usuarioCtrl.getUsuarios);
+router.get('/socios/list', verificarToken, verificarRol(['admin', 'entrenador']), usuarioCtrl.getSocios);
 router.get('/:dni', verificarToken, verificarRol('admin'), usuarioCtrl.getUsuarioByDni);
 router.put('/:dni', verificarToken, verificarRol('admin'), validarActualizarUsuario, usuarioCtrl.updateUsuario);
 router.delete('/:dni', verificarToken, verificarRol('admin'), usuarioCtrl.deleteUsuario);
