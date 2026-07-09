@@ -24,18 +24,34 @@ pagoCtrl.createPago = async (req, res) => {
 
   try { 
     const data = req.body;
-    if (data.tarifa  && data.tarifa.id) {
-        data.tarifaId = data.tarifa.id;
+    const tarifaId = data.tarifa?.id || data.tarifaId;
 
-        await Pago.create(req.body); 
-        res.json({ status: '1', msg: 'Pago guardado.' }); 
+    if (!tarifaId) {
+        return res.status(400).json({ status: '0', msg: 'Falta tarifa asociada.' });
+    }
 
+    const tarifa = await Tarifa.findByPk(tarifaId);
+
+    if (!tarifa) {
+        return res.status(404).json({ status: '0', msg: 'Tarifa asociada no encontrada.' });
     }
-    else {
-        res.status(400).json({ status: '0', msg: 'Falta tarifa asociada.' }); 
+
+    if (tarifa.activo === false) {
+        return res.status(400).json({ status: '0', msg: 'No se puede crear un pago para una tarifa anulada.' });
     }
+
+    if (tarifa.pagado === true) {
+        return res.status(400).json({ status: '0', msg: 'No se puede crear un pago para una tarifa ya pagada.' });
+    }
+
+    data.tarifaId = tarifaId;
+
+    await Pago.create(data); 
+    await Tarifa.update({ pagado: true }, { where: { id: tarifaId } });
+    res.json({ status: '1', msg: 'Pago guardado.' }); 
 
   } catch (error) { 
+    console.error(error);
     res.status(400).json({ status: '0', msg: 'Error procesando operacion.' }); 
   } 
 }; 
@@ -67,4 +83,77 @@ pagoCtrl.getPagos = async (req, res) => {
   } 
 }; 
  
+// Anular un pago (solo cambia el estado)
+pagoCtrl.anularPago = async (pagoId) => { 
+
+    /* 
+        #swagger.tags = ['Pagos'] 
+        #swagger.summary = 'Anular un pago' 
+        #swagger.description = 'Cambia el estado de un pago a inactivo sin modificar el resto de sus datos.' 
+        #swagger.parameters['id'] = { 
+            in: 'path', 
+            description: 'ID del pago a anular.', 
+            required: true, 
+            type: 'integer' 
+        } 
+        #swagger.responses[200] = { 
+            description: 'Pago anulado correctamente.' 
+        } 
+    */    
+
+  if (!pagoId) {
+    const error = new Error('Falta el id del pago.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const pago = await Pago.findByPk(pagoId);
+
+  if (!pago) {
+    const error = new Error('Pago no encontrado.');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const tarifaId = pago.tarifaId || pago.dataValues.tarifaId || pago.getDataValue('tarifaId');
+
+  if (!tarifaId) {
+    const error = new Error('El pago no tiene una tarifa asociada.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const tarifa = await Tarifa.findByPk(tarifaId);
+
+  if (!tarifa) {
+    const error = new Error('Tarifa asociada no encontrada.');
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (tarifa.activo === false) {
+    const error = new Error('No se puede anular un pago de una tarifa anulada.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (tarifa.pagado === false) {
+    const error = new Error('La tarifa asociada ya no se encuentra pagada.');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  await Pago.update(
+    { activo: false },
+    { where: { id: pagoId } }
+  );
+
+  await Tarifa.update(
+    { pagado: false },
+    { where: { id: tarifaId } }
+  );
+
+  return { status: '1', msg: 'Pago anulado correctamente.' };
+}; 
+
 module.exports = pagoCtrl; 

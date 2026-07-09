@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const Usuario = require('./../../src/models/usuario.model');
+const UsuarioRol = require('./../../src/models/usuarioRol.model');
+const emailService = require('./../services/email.service');
 const usuarioCtrl = {};
 
 // Alta de nuevo usuario
@@ -18,7 +20,7 @@ usuarioCtrl.createUsuario = async (req, res) => {
         
         const password_hash = await bcrypt.hash(req.body.password, 10)
         
-        await Usuario.create({
+        const nuevoUsuario = await Usuario.create({
             nombre: req.body.nombre,
             apellido: req.body.apellido,
             dni: req.body.dni,
@@ -26,6 +28,10 @@ usuarioCtrl.createUsuario = async (req, res) => {
             password_hash: password_hash,
             google_id: req.body.google_id || null
         });
+
+        await UsuarioRol.create({ id_usuario: nuevoUsuario.id, id_rol: 3 });
+        await emailService.enviarBienvenida(req.body.email, req.body.nombre);
+
         res.json({status: '1', msg: 'Usuario creado correctamente.'});
     } catch (error) {
         console.error(error);
@@ -133,6 +139,28 @@ usuarioCtrl.activeUsuario = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({status: '0', msg: 'Error al activar el usuario'});
+    }
+};
+
+
+// Obtener solo los usuarios que son Socios
+usuarioCtrl.getSocios = async (req, res) => {
+    try {
+        const asignaciones = await UsuarioRol.findAll({ where: { id_rol: 3 } });
+        const idsSocios = asignaciones.map(a => a.id_usuario);
+        
+        const socios = await Usuario.findAll({
+            where: { 
+                id: idsSocios,
+                estado: true 
+            },
+            attributes: { exclude: ['password_hash', 'createdAt', 'updatedAt'] }
+        });
+        
+        res.json({status: '1', msg: 'Socios obtenidos correctamente.', usuarios: socios});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({status: '0', msg: 'Error al obtener los socios'});
     }
 };
 
