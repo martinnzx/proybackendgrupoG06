@@ -4,25 +4,7 @@ const Usuario = require('./../../src/models/usuario.model');
 
 const tarifaCtrl = {}; 
 
-// Crear una nueva tarifa 
 tarifaCtrl.createTarifa = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Tarifas'] 
-        #swagger.summary = 'Agregar una tarifa' 
-        #swagger.description = 'Agrega una tarifa a lista de tarifas.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos de la tarifa a agregar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Tarifa' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Tarifa agregada correctamente.', 
-            schema: { $ref: '#/definitions/Tarifa' } 
-        } 
-    */    
-
   try { 
     const data = req.body;
 
@@ -43,19 +25,7 @@ tarifaCtrl.createTarifa = async (req, res) => {
   } 
 }; 
 
-
-// Obtener todos las tarifas
 tarifaCtrl.getTarifas = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Tarifas'] 
-        #swagger.summary = 'Obtener todos las tarifas' 
-        #swagger.description = 'Retorna una lista de todos las tarifas.' 
-        #swagger.responses[200] = { 
-            description: 'Lista de tarifas obtenida con éxito.', 
-            schema: { $ref: '#/definitions/Tarifa' } 
-        } 
-    */
-
   try { 
     const tarifas = await Tarifa.findAll(
       {include: [
@@ -68,24 +38,7 @@ tarifaCtrl.getTarifas = async (req, res) => {
   } 
 }; 
 
-// Obtener cuotas impagas de un usuario específico
  tarifaCtrl.getCuotasImpagasPorUsuario = async (req, res) => {
-    /*
-        #swagger.tags = ['Tarifas']
-        #swagger.summary = 'Obtener cuotas impagas por usuario'
-        #swagger.description = 'Retorna únicamente las cuotas no pagadas de un usuario recibido por parámetro.'
-        #swagger.parameters['usuarioId'] = {
-            in: 'path',
-            description: 'ID del usuario del cual se quieren obtener las cuotas impagas.',
-            required: true,
-            type: 'string'
-        }
-        #swagger.responses[200] = {
-            description: 'Lista de cuotas impagas obtenida con éxito.',
-            schema: { type: 'array', items: { $ref: '#/definitions/Tarifa' } }
-        }
-    */
-
     try {
         const { usuarioId } = req.params;
 
@@ -116,7 +69,6 @@ tarifaCtrl.getTarifas = async (req, res) => {
     }
 };
 
-// Obtener todas las cuotas del socio logueado (Mis Pagos)
 tarifaCtrl.getMisTarifas = async (req, res) => {
     try {
         const usuarioId = req.usuario.id;
@@ -140,23 +92,7 @@ tarifaCtrl.getMisTarifas = async (req, res) => {
     }
 };
 
-// Anular una tarifa 
 tarifaCtrl.anularTarifa = async (req, res) => { 
-
-    /* 
-        #swagger.tags = ['Tarifas'] 
-        #swagger.summary = 'Anular una tarifa' 
-        #swagger.description = 'Anula una tarifa de la lista de tarifas.' 
-        #swagger.parameters['id'] = { 
-            in: 'path', 
-            description: 'ID de la tarifa a anular.', 
-            required: true, 
-            type: 'string' 
-        } 
-        #swagger.responses[200] = { 
-            description: 'Tarifa anulada correctamente.'
-        } 
-    */
   try { 
     const tarifa = await Tarifa.findByPk(req.params.id);
 

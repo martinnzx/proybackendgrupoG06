@@ -9,7 +9,7 @@ var app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({origin: 'http://localhost:4200'}));
+app.use(cors({origin: ['http://localhost:4200', 'https://localhost:4200']}));
 
 //rutas para mercado pago 
 app.use('/api/mp', require('./src/routes/mp.route.js')); 
