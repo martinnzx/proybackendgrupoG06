@@ -3,25 +3,7 @@ const Rutina = require('./../../src/models/rutina.model');
 
 const ejercicioCtrl = {}; 
 
-// Crear un nuevo ejercicio 
 ejercicioCtrl.createEjercicio = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Ejercicios'] 
-        #swagger.summary = 'Agregar un ejercicio' 
-        #swagger.description = 'Agrega un ejercicio a lista de ejercicios.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos del ejercicio a agregar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Ejercicio' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Ejercicio agregado correctamente.', 
-            schema: { $ref: '#/definitions/Ejercicio' } 
-        } 
-    */    
-
   try { 
     // Sequelize usa .create() para instanciar y guardar en un solo paso 
     await Ejercicio.create(req.body); 
@@ -31,19 +13,7 @@ ejercicioCtrl.createEjercicio = async (req, res) => {
   } 
 }; 
 
-
-
-// Obtener todos los ejercicios 
 ejercicioCtrl.getEjercicios = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Ejercicios'] 
-        #swagger.summary = 'Obtener todos los ejercicios' 
-        #swagger.description = 'Retorna una lista de todos los ejercicios.' 
-        #swagger.responses[200] = { 
-            description: 'Lista de ejercicios obtenida con éxito.', 
-            schema: { $ref: '#/definitions/Ejercicio' } 
-        } 
-    */
 
   try { 
     const ejercicios = await Ejercicio.findAll(); 
@@ -53,23 +23,8 @@ ejercicioCtrl.getEjercicios = async (req, res) => {
   } 
 }; 
  
-// Eliminar un ejercicio 
 ejercicioCtrl.deleteEjercicio = async (req, res) => { 
 
-    /* 
-        #swagger.tags = ['Ejercicios'] 
-        #swagger.summary = 'Eliminar un ejercicio' 
-        #swagger.description = 'Elimina un ejercicio de la lista de ejercicios.' 
-        #swagger.parameters['id'] = { 
-            in: 'path', 
-            description: 'ID del ejercicio a eliminar.', 
-            required: true, 
-            type: 'string' 
-        } 
-        #swagger.responses[200] = { 
-            description: 'Ejercicio eliminado correctamente.'
-        } 
-    */
   try { 
     const ejercicio = await Ejercicio.findByPk(req.params.id);
 
@@ -93,25 +48,7 @@ ejercicioCtrl.deleteEjercicio = async (req, res) => {
   } 
 }; 
 
-// Editar un ejercicio 
 ejercicioCtrl.editEjercicio = async (req, res) => { 
-
-    /* 
-        #swagger.tags = ['Ejercicios'] 
-        #swagger.summary = 'Modificar un ejercicio' 
-        #swagger.description = 'Modifica los datos de un ejercicio existente.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos del ejercicio a modificar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Ejercicio' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Ejercicio modificado correctamente.', 
-            schema: { $ref: '#/definitions/Ejercicio' } 
-        } 
-    */    
 
   try { 
         const ejercicio = await Ejercicio.findByPk(req.params.id);
@@ -127,6 +64,5 @@ ejercicioCtrl.editEjercicio = async (req, res) => {
   } 
 
 }; 
-
 
 module.exports = ejercicioCtrl; 

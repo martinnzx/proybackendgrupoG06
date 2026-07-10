@@ -1,10 +1,10 @@
-const Pago = require('./../../src/models/pago.model'); 
-const Tarifa = require('./../../src/models/tarifa.model'); 
+const Pago = require('./../../src/models/pago.model'); // Asegúrate de usar la ruta 
+const Tarifa = require('./../../src/models/tarifa.model'); // Asegúrate de usar la ruta 
 
 const pagoCtrl = {}; 
 
-// Crear una nuevo pago 
 pagoCtrl.createPago = async (req, res) => { 
+
   try { 
     const data = req.body;
     const tarifaId = data.tarifa?.id || data.tarifaId;
@@ -39,20 +39,7 @@ pagoCtrl.createPago = async (req, res) => {
   } 
 }; 
 
-
-
-// Obtener todos los pagos
 pagoCtrl.getPagos = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Pagos'] 
-        #swagger.summary = 'Obtener todos pagos a tarifas' 
-        #swagger.description = 'Retorna una lista de todos los pagos.' 
-        #swagger.responses[200] = { 
-            description: 'Lista de pagos obtenida con éxito.', 
-            schema: { $ref: '#/definitions/Pagos' } 
-        } 
-    */
-
   try { 
     const pagos = await Pago.findAll(
             {include: [
@@ -66,24 +53,7 @@ pagoCtrl.getPagos = async (req, res) => {
   } 
 }; 
  
-// Anular un pago (solo cambia el estado)
 pagoCtrl.anularPago = async (pagoId) => { 
-
-    /* 
-        #swagger.tags = ['Pagos'] 
-        #swagger.summary = 'Anular un pago' 
-        #swagger.description = 'Cambia el estado de un pago a inactivo sin modificar el resto de sus datos.' 
-        #swagger.parameters['id'] = { 
-            in: 'path', 
-            description: 'ID del pago a anular.', 
-            required: true, 
-            type: 'integer' 
-        } 
-        #swagger.responses[200] = { 
-            description: 'Pago anulado correctamente.' 
-        } 
-    */    
-
   if (!pagoId) {
     const error = new Error('Falta el id del pago.');
     error.statusCode = 400;

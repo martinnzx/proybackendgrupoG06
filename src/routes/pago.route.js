@@ -1,15 +1,14 @@
-//defino controlador para el manejo de CRUD 
-const pagoCtrl = require('../controllers/pago.controller'); // Asegúrate de usar la ruta correcta a tu controlador
-//creamos el manejador de rutas  
+
+const pagoCtrl = require('../controllers/pago.controller');
+
 const express = require('express'); 
 const router = express.Router(); 
 const verificarToken = require('../middlewares/auth.middleware');
 const verificarRol = require('../middlewares/rol.middleware');
 
-//definimos las rutas para la gestion de pagos
  
 router.get('/', verificarToken, verificarRol('admin'), pagoCtrl.getPagos); 
-router.post('/', verificarToken, verificarRol('admin'), pagoCtrl.createPago); 
+router.post('/', verificarToken, verificarRol(['admin', 'socio']), pagoCtrl.createPago); 
 router.patch('/:id/anular', verificarToken, verificarRol('admin'), async (req, res) => {
     try {
         const result = await pagoCtrl.anularPago(req.params.id);
@@ -20,5 +19,4 @@ router.patch('/:id/anular', verificarToken, verificarRol('admin'), async (req, r
     }
 }); 
 
-//exportamos el modulo de rutas 
 module.exports = router;
