@@ -1,6 +1,7 @@
 const Rutina    = require('./../../src/models/rutina.model');
 const Ejercicio = require('./../../src/models/ejercicio.model');
 const Usuario   = require('./../../src/models/usuario.model');
+const { sendRutinaNotification } = require('../services/email.service');
 
 const rutinaCtrl = {}; 
 
@@ -17,6 +18,13 @@ rutinaCtrl.createRutina = async (req, res) => {
             
             const ejercicioIds = data.ejercicios.map(e => e.id);
             await nuevaRutina.addEjercicios(ejercicioIds);
+
+            // Obtener datos del usuario para el envío de correo
+            const usuarioObj = await Usuario.findByPk(data.usuario.id);
+            if (usuarioObj && usuarioObj.email) {
+                // Se envía el correo de forma asíncrona sin bloquear la respuesta al frontend
+                sendRutinaNotification(usuarioObj.email, usuarioObj.nombre, nuevaRutina.nombre);
+            }
 
             res.json({ status: '1', msg: 'Rutina guardada.' }); 
         }

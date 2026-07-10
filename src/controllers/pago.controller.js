@@ -1,27 +1,10 @@
-const Pago = require('./../../src/models/pago.model'); // Asegúrate de usar la ruta 
-const Tarifa = require('./../../src/models/tarifa.model'); // Asegúrate de usar la ruta 
+const Pago = require('./../../src/models/pago.model'); 
+const Tarifa = require('./../../src/models/tarifa.model'); 
 
 const pagoCtrl = {}; 
 
 // Crear una nuevo pago 
 pagoCtrl.createPago = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Pagos'] 
-        #swagger.summary = 'Agregar un pago' 
-        #swagger.description = 'Agrega una pago a una tarifa.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos del pago a agregar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Pago' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Pago agregado correctamente.', 
-            schema: { $ref: '#/definitions/Pago' } 
-        } 
-    */    
-
   try { 
     const data = req.body;
     const tarifaId = data.tarifa?.id || data.tarifaId;

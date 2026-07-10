@@ -33,11 +33,10 @@ app.use('/api/tarifas', require('./src/routes/tarifa.route.js'));
 app.use('/api/pagos', require('./src/routes/pago.route.js')); 
 app.use('/api/dashboard', require('./src/routes/dashboard.route.js'));
 app.use('/api/ai', require('./src/routes/ai.route.js'));
+app.use('/api/nutricion', require('./src/routes/nutricion.route.js'));
 
 // Ruta hacia la documentacion de swagger 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-
-// Setting
 app.set('port', process.env.PORT || 3000);
 
 // Starting the database

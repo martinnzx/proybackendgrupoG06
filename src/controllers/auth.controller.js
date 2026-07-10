@@ -99,8 +99,6 @@ authCtrl.googleLogin = async (req, res) => {
             });
             
             await UsuarioRol.create({ id_usuario: usuario.id, id_rol: 3 });
-
-            await emailService.enviarBienvenida(email, given_name);
         }
         if (!usuario.estado) {
             return res.status(403).json({ status: '0', msg: 'Usuario inactivo.' });

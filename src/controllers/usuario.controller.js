@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const Usuario = require('./../../src/models/usuario.model');
 const UsuarioRol = require('./../../src/models/usuarioRol.model');
-const emailService = require('./../services/email.service');
 const usuarioCtrl = {};
 
 // Alta de nuevo usuario
@@ -30,7 +29,6 @@ usuarioCtrl.createUsuario = async (req, res) => {
         });
 
         await UsuarioRol.create({ id_usuario: nuevoUsuario.id, id_rol: 3 });
-        await emailService.enviarBienvenida(req.body.email, req.body.nombre);
 
         res.json({status: '1', msg: 'Usuario creado correctamente.'});
     } catch (error) {
