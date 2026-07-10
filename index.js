@@ -1,9 +1,5 @@
-//require('dotenv').config();
-//referenciamos a la libreria de dontenv 
 const dotenv = require("dotenv"); 
-//cargamos las variables de entorno, busca en el archivo oculto .env 
 dotenv.config(); 
-
 
 const express = require('express');
 const cors = require('cors');
@@ -36,6 +32,7 @@ app.use('/api/suscripciones', require('./src/routes/suscripcion.route.js'));
 app.use('/api/tarifas', require('./src/routes/tarifa.route.js')); 
 app.use('/api/pagos', require('./src/routes/pago.route.js')); 
 app.use('/api/dashboard', require('./src/routes/dashboard.route.js'));
+app.use('/api/ai', require('./src/routes/ai.route.js'));
 
 // Ruta hacia la documentacion de swagger 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));

@@ -16,3 +16,24 @@ Rol.belongsToMany(Usuario, {
 
 UsuarioRol.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 UsuarioRol.belongsTo(Rol, { foreignKey: 'id_rol' });
+
+const Rutina = require('./../src/models/rutina.model');
+const Ejercicio = require('./../src/models/ejercicio.model');
+const RutinaEjercicio = require('./../src/models/rutinaEjercicio.model');
+
+Rutina.belongsToMany(Ejercicio, {
+    through: RutinaEjercicio,
+    foreignKey: 'id_rutina',
+    otherKey: 'id_ejercicio',
+    as: 'ejercicios'
+});
+
+Ejercicio.belongsToMany(Rutina, {
+    through: RutinaEjercicio,
+    foreignKey: 'id_ejercicio',
+    otherKey: 'id_rutina',
+    as: 'rutinas'
+});
+
+RutinaEjercicio.belongsTo(Rutina, { foreignKey: 'id_rutina' });
+RutinaEjercicio.belongsTo(Ejercicio, { foreignKey: 'id_ejercicio' });
