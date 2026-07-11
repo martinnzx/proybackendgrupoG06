@@ -1,28 +1,10 @@
-const Tarifa = require('./../../src/models/tarifa.model'); // Asegúrate de usar la ruta 
-const Suscripcion = require('./../../src/models/suscripcion.model'); // Asegúrate de usar la ruta 
+const Tarifa = require('./../../src/models/tarifa.model');
+const Suscripcion = require('./../../src/models/suscripcion.model');
 const Usuario = require('./../../src/models/usuario.model');
 
 const tarifaCtrl = {}; 
 
-// Crear una nueva tarifa 
 tarifaCtrl.createTarifa = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Tarifas'] 
-        #swagger.summary = 'Agregar una tarifa' 
-        #swagger.description = 'Agrega una tarifa a lista de tarifas.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos de la tarifa a agregar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Tarifa' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Tarifa agregada correctamente.', 
-            schema: { $ref: '#/definitions/Tarifa' } 
-        } 
-    */    
-
   try { 
     const data = req.body;
 
@@ -43,19 +25,7 @@ tarifaCtrl.createTarifa = async (req, res) => {
   } 
 }; 
 
-
-// Obtener todos las tarifas
 tarifaCtrl.getTarifas = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Tarifas'] 
-        #swagger.summary = 'Obtener todos las tarifas' 
-        #swagger.description = 'Retorna una lista de todos las tarifas.' 
-        #swagger.responses[200] = { 
-            description: 'Lista de tarifas obtenida con éxito.', 
-            schema: { $ref: '#/definitions/Tarifa' } 
-        } 
-    */
-
   try { 
     const tarifas = await Tarifa.findAll(
       {include: [
@@ -68,24 +38,7 @@ tarifaCtrl.getTarifas = async (req, res) => {
   } 
 }; 
 
-// Obtener cuotas impagas de un usuario específico
  tarifaCtrl.getCuotasImpagasPorUsuario = async (req, res) => {
-    /*
-        #swagger.tags = ['Tarifas']
-        #swagger.summary = 'Obtener cuotas impagas por usuario'
-        #swagger.description = 'Retorna únicamente las cuotas no pagadas de un usuario recibido por parámetro.'
-        #swagger.parameters['usuarioId'] = {
-            in: 'path',
-            description: 'ID del usuario del cual se quieren obtener las cuotas impagas.',
-            required: true,
-            type: 'string'
-        }
-        #swagger.responses[200] = {
-            description: 'Lista de cuotas impagas obtenida con éxito.',
-            schema: { type: 'array', items: { $ref: '#/definitions/Tarifa' } }
-        }
-    */
-
     try {
         const { usuarioId } = req.params;
 
@@ -116,23 +69,30 @@ tarifaCtrl.getTarifas = async (req, res) => {
     }
 };
 
-// Anular una tarifa 
-tarifaCtrl.anularTarifa = async (req, res) => { 
+tarifaCtrl.getMisTarifas = async (req, res) => {
+    try {
+        const usuarioId = req.usuario.id;
 
-    /* 
-        #swagger.tags = ['Tarifas'] 
-        #swagger.summary = 'Anular una tarifa' 
-        #swagger.description = 'Anula una tarifa de la lista de tarifas.' 
-        #swagger.parameters['id'] = { 
-            in: 'path', 
-            description: 'ID de la tarifa a anular.', 
-            required: true, 
-            type: 'string' 
-        } 
-        #swagger.responses[200] = { 
-            description: 'Tarifa anulada correctamente.'
-        } 
-    */
+        const misTarifas = await Tarifa.findAll({
+            include: [
+                {
+                    model: Suscripcion,
+                    as: 'suscripcion',
+                    attributes: ['id', 'fecha_inicio', 'fecha_fin', 'precio', 'activo'],
+                    where: { usuarioId }
+                }
+            ],
+            order: [['anio', 'DESC'], ['mes', 'DESC']]
+        });
+
+        res.json(misTarifas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: '0', msg: 'Error al obtener las cuotas del socio.' });
+    }
+};
+
+tarifaCtrl.anularTarifa = async (req, res) => { 
   try { 
     const tarifa = await Tarifa.findByPk(req.params.id);
 

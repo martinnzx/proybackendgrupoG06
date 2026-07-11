@@ -1,36 +1,41 @@
-const Suscripcion = require('./../../src/models/suscripcion.model'); // Asegúrate de usar la ruta 
+const Suscripcion = require('./../../src/models/suscripcion.model');
 const Usuario = require('./../../src/models/usuario.model');
 const Tarifa = require('./../../src/models/tarifa.model');
 
 const suscripcionCtrl = {}; 
 
-// Crear una nueva suscripcion 
 suscripcionCtrl.createSuscripcion = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Suscripciones'] 
-        #swagger.summary = 'Agregar una suscripcion' 
-        #swagger.description = 'Agrega una suscripcion a lista de suscripciones.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos de la suscripcion a agregar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Suscripcion' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Suscripcion agregada correctamente.', 
-            schema: { $ref: '#/definitions/Suscripcion' } 
-        } 
-    */    
-
   try { 
     const data = req.body;
 
     if (data.usuario  && data.usuario.id) {
         data.usuarioId = data.usuario.id;
 
-        await Suscripcion.create(req.body); 
-        res.json({ status: '1', msg: 'Suscripcion guardada.' }); 
+        const nuevaSuscripcion = await Suscripcion.create(req.body); 
+
+        let anioStr = '';
+        let mesStr = '';
+        
+        if (req.body.fecha_inicio && req.body.fecha_inicio.includes('-')) {
+            const partes = req.body.fecha_inicio.split('-');
+            anioStr = partes[0];
+            mesStr = parseInt(partes[1], 10).toString();
+        } else {
+            const fechaD = new Date(req.body.fecha_inicio);
+            anioStr = fechaD.getFullYear().toString();
+            mesStr = (fechaD.getMonth() + 1).toString();
+        }
+
+        await Tarifa.create({
+            anio: anioStr,
+            mes: mesStr,
+            precio: req.body.precio,
+            pagado: false,
+            activo: true,
+            suscripcionId: nuevaSuscripcion.id
+        });
+
+        res.json({ status: '1', msg: 'Suscripcion y Cuota inicial guardadas exitosamente.' }); 
 
     }
     else {
@@ -43,18 +48,7 @@ suscripcionCtrl.createSuscripcion = async (req, res) => {
   } 
 }; 
 
-
-// Obtener todos las suscripciones
 suscripcionCtrl.getSuscripciones = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Suscripciones'] 
-        #swagger.summary = 'Obtener todos las suscripciones' 
-        #swagger.description = 'Retorna una lista de todos las suscripciones.' 
-        #swagger.responses[200] = { 
-            description: 'Lista de suscripciones obtenida con éxito.', 
-            schema: { $ref: '#/definitions/Suscripcion' } 
-        } 
-    */
 
   try { 
     const suscripciones = await Suscripcion.findAll(
@@ -68,24 +62,7 @@ suscripcionCtrl.getSuscripciones = async (req, res) => {
   } 
 }; 
  
-// Eliminar una suscripcion
 suscripcionCtrl.deleteSuscricion = async (req, res) => { 
-
-    /* 
-        #swagger.tags = ['Suscripciones'] 
-        #swagger.summary = 'Eliminar una suscripcion' 
-        #swagger.description = 'Elimina una suscripcion de la lista de suscripciones.' 
-        #swagger.parameters['id'] = { 
-            in: 'path', 
-            description: 'ID de la suscripcion a eliminar.', 
-            required: true, 
-            type: 'string' 
-        } 
-        #swagger.responses[200] = { 
-            description: 'Suscripcion eliminada correctamente.'
-        } 
-    */
-
   try { 
     const suscripcion = await Suscripcion.findByPk(req.params.id);
 
@@ -109,26 +86,7 @@ suscripcionCtrl.deleteSuscricion = async (req, res) => {
   } 
 }; 
 
-// Editar una suscripcion 
 suscripcionCtrl.editSuscripcion = async (req, res) => { 
-
-/* 
-        #swagger.tags = ['Suscripciones'] 
-        #swagger.summary = 'Modificar una suscripcion' 
-        #swagger.description = 'Modifica los datos de una suscripcion existente.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos de la suscripcion a modificar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Suscripcion' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Suscripcion modificada correctamente.', 
-            schema: { $ref: '#/definitions/Suscripcion' } 
-        } 
-    */    
-
     const data = req.body;
     try {
         const suscripcion = await Suscripcion.findByPk(req.params.id);

@@ -1,9 +1,5 @@
-//require('dotenv').config();
-//referenciamos a la libreria de dontenv 
 const dotenv = require("dotenv"); 
-//cargamos las variables de entorno, busca en el archivo oculto .env 
 dotenv.config(); 
-
 
 const express = require('express');
 const cors = require('cors');
@@ -13,7 +9,7 @@ var app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({origin: 'http://localhost:4200'}));
+app.use(cors({origin: ['http://localhost:4200', 'https://localhost:4200']}));
 
 //rutas para mercado pago 
 app.use('/api/mp', require('./src/routes/mp.route.js')); 
@@ -36,11 +32,12 @@ app.use('/api/rutinas', require('./src/routes/rutina.route.js'));
 app.use('/api/suscripciones', require('./src/routes/suscripcion.route.js')); 
 app.use('/api/tarifas', require('./src/routes/tarifa.route.js')); 
 app.use('/api/pagos', require('./src/routes/pago.route.js')); 
+app.use('/api/dashboard', require('./src/routes/dashboard.route.js'));
+app.use('/api/ai', require('./src/routes/ai.route.js'));
+app.use('/api/nutricion', require('./src/routes/nutricion.route.js'));
 
 // Ruta hacia la documentacion de swagger 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-
-// Setting
 app.set('port', process.env.PORT || 3000);
 
 // Starting the database

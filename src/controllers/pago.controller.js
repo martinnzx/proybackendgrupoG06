@@ -3,24 +3,7 @@ const Tarifa = require('./../../src/models/tarifa.model'); // Asegúrate de usar
 
 const pagoCtrl = {}; 
 
-// Crear una nuevo pago 
 pagoCtrl.createPago = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Pagos'] 
-        #swagger.summary = 'Agregar un pago' 
-        #swagger.description = 'Agrega una pago a una tarifa.' 
-        #swagger.consumes = ['application/json'] 
-        #swagger.parameters['body'] = { 
-            in: 'body', 
-            description: 'Datos del pago a agregar.', 
-            required: true, 
-            schema: { $ref: '#/definitions/Pago' }  
-        } 
-        #swagger.responses[200] = { 
-            description: 'Pago agregado correctamente.', 
-            schema: { $ref: '#/definitions/Pago' } 
-        } 
-    */    
 
   try { 
     const data = req.body;
@@ -56,20 +39,7 @@ pagoCtrl.createPago = async (req, res) => {
   } 
 }; 
 
-
-
-// Obtener todos los pagos
 pagoCtrl.getPagos = async (req, res) => { 
-    /* 
-        #swagger.tags = ['Pagos'] 
-        #swagger.summary = 'Obtener todos pagos a tarifas' 
-        #swagger.description = 'Retorna una lista de todos los pagos.' 
-        #swagger.responses[200] = { 
-            description: 'Lista de pagos obtenida con éxito.', 
-            schema: { $ref: '#/definitions/Pagos' } 
-        } 
-    */
-
   try { 
     const pagos = await Pago.findAll(
             {include: [
@@ -83,24 +53,7 @@ pagoCtrl.getPagos = async (req, res) => {
   } 
 }; 
  
-// Anular un pago (solo cambia el estado)
 pagoCtrl.anularPago = async (pagoId) => { 
-
-    /* 
-        #swagger.tags = ['Pagos'] 
-        #swagger.summary = 'Anular un pago' 
-        #swagger.description = 'Cambia el estado de un pago a inactivo sin modificar el resto de sus datos.' 
-        #swagger.parameters['id'] = { 
-            in: 'path', 
-            description: 'ID del pago a anular.', 
-            required: true, 
-            type: 'integer' 
-        } 
-        #swagger.responses[200] = { 
-            description: 'Pago anulado correctamente.' 
-        } 
-    */    
-
   if (!pagoId) {
     const error = new Error('Falta el id del pago.');
     error.statusCode = 400;
