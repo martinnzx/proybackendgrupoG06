@@ -1,11 +1,10 @@
-const Ejercicio = require('./../../src/models/ejercicio.model'); // Asegúrate de usar la ruta 
+const Ejercicio = require('./../../src/models/ejercicio.model');
 const Rutina = require('./../../src/models/rutina.model');
 
 const ejercicioCtrl = {}; 
 
 ejercicioCtrl.createEjercicio = async (req, res) => { 
   try { 
-    // Sequelize usa .create() para instanciar y guardar en un solo paso 
     await Ejercicio.create(req.body); 
     res.json({ status: '1', msg: 'Ejercicio guardado.' }); 
   } catch (error) { 

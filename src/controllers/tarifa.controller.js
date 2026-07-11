@@ -1,5 +1,5 @@
-const Tarifa = require('./../../src/models/tarifa.model'); // Asegúrate de usar la ruta 
-const Suscripcion = require('./../../src/models/suscripcion.model'); // Asegúrate de usar la ruta 
+const Tarifa = require('./../../src/models/tarifa.model');
+const Suscripcion = require('./../../src/models/suscripcion.model');
 const Usuario = require('./../../src/models/usuario.model');
 
 const tarifaCtrl = {}; 
