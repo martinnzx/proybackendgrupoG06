@@ -30,8 +30,9 @@ app.use('/api/usuarios', require('./src/routes/usuario.route.js'));
 app.use('/api/auth', require('./src/routes/auth.route.js'));
 app.use('/api/roles', require('./src/routes/rol.route'));
 
-app.use('/api/ejercicios', require('./src/routes/ejercicio.route.js')); 
-app.use('/api/rutinas', require('./src/routes/rutina.route.js')); 
+app.use('/api/ejercicios', require('./src/routes/ejercicio.route.js'));
+app.use('/api/youtube', require('./src/routes/youtube.route.js'));
+app.use('/api/rutinas', require('./src/routes/rutina.route.js'));
 app.use('/api/suscripciones', require('./src/routes/suscripcion.route.js')); 
 app.use('/api/tarifas', require('./src/routes/tarifa.route.js')); 
 app.use('/api/pagos', require('./src/routes/pago.route.js')); 
