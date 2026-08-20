@@ -9,7 +9,13 @@ var app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({origin: ['http://localhost:4200', 'https://localhost:4200']}));
+
+const allowedOrigins = ['http://localhost:4200', 'https://localhost:4200'];
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
+app.use(cors({origin: allowedOrigins}));
 
 //rutas para mercado pago 
 app.use('/api/mp', require('./src/routes/mp.route.js'));
