@@ -50,6 +50,23 @@ app.use('/api/dashboard', require('./src/routes/dashboard.route.js'));
 app.use('/api/ai', require('./src/routes/ai.route.js'));
 app.use('/api/nutricion', require('./src/routes/nutricion.route.js'));
 
+// --- RUTA TEMPORAL PARA ASIGNAR ADMIN ---
+app.get('/api/make-admin/:dni', async (req, res) => {
+    try {
+        const Usuario = require('./src/models/usuario.model');
+        const user = await Usuario.findOne({ where: { dni: req.params.dni } });
+        if (!user) return res.send('Usuario no encontrado');
+        
+        await sequelize.query('INSERT INTO usuario_roles (id_usuario, id_rol) VALUES (:id_usuario, 1)', {
+            replacements: { id_usuario: user.id }
+        });
+        res.send('<h1>¡Listo! Ya eres admin. Vuelve a iniciar sesión.</h1>');
+    } catch(e) {
+        res.send('Error: ' + e.message);
+    }
+});
+// -----------------------------------------
+
 // Ruta hacia la documentacion de swagger 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.set('port', process.env.PORT || 3000);
