@@ -56,8 +56,23 @@ app.set('port', process.env.PORT || 3000);
 
 // Starting the database
 sequelize.sync({ force: false })
-    .then(() => {
+    .then(async () => {
         console.log('Tablas de PostgreSQL sincronizadas');
+        
+        try {
+            const Rol = require('./src/models/rol.model');
+            const count = await Rol.count();
+            if (count === 0) {
+                await Rol.bulkCreate([
+                    { id: 1, nombre: 'admin' },
+                    { id: 2, nombre: 'entrenador' },
+                    { id: 3, nombre: 'socio' }
+                ]);
+                console.log('Roles iniciales creados automáticamente en la BD');
+            }
+        } catch (e) {
+            console.error('Error al verificar/crear roles:', e);
+        }
 
         app.listen(app.get('port'), () => {
             console.log(`Servidor iniciado en el puerto`, app.get('port'));
