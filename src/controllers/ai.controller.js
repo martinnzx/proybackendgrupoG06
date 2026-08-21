@@ -30,7 +30,7 @@ Directrices estrictas:
 - EXTREMADAMENTE IMPORTANTE: Tu respuesta TOTAL no puede superar bajo ninguna circunstancia los 250 caracteres de longitud. Sé increíblemente breve y conciso, usando abreviaturas si es necesario.`;
 
         const requestBody = {
-            model: "llama-3.1-8b-instant",
+            model: "llama3-8b-8192",
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: `Rutina enfocada en: ${nombre}` }
@@ -72,7 +72,9 @@ Directrices estrictas:
         
         return res.status(status).json({ 
             status: '0', 
-            msg: errorMessage 
+            msg: errorMessage,
+            dev_error: error.response?.data || error.message,
+            dev_url: error.config?.url
         });
     }
 };
