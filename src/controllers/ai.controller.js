@@ -30,7 +30,7 @@ Directrices estrictas:
 - EXTREMADAMENTE IMPORTANTE: Tu respuesta TOTAL no puede superar bajo ninguna circunstancia los 250 caracteres de longitud. Sé increíblemente breve y conciso, usando abreviaturas si es necesario.`;
 
         const requestBody = {
-            model: "llama3-8b-8192",
+            model: "openai/gpt-oss-20b",
             messages: [
                 { role: "system", content: systemPrompt },
                 { role: "user", content: `Rutina enfocada en: ${nombre}` }

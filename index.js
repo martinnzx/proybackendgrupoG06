@@ -5,9 +5,12 @@ const express = require('express');
 const cors = require('cors');
 const sequelize = require('./config/database');
 
+const helmet = require('helmet');
+
 var app = express();
 
 // Middlewares
+app.use(helmet());
 app.use(express.json());
 
 const allowedOrigins = ['http://localhost:4200', 'https://localhost:4200'];
